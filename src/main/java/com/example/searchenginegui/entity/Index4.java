@@ -1,18 +1,18 @@
-package com.example.searchenginegui;
+package com.example.searchenginegui.entity;
 import java.io.*;
 import java.util.Scanner;
 
-class Index4 {
+public class Index4 {
 
     WikiItem start, startDoc, tmpDoc, currentDoc;
     WikiItem startDistinct, currentDistinct, tmpDistinct;
     ReturnItem startReturnItem, currentReturnItem, tmpReturnItem;
-    HashTable ht;
+    public Index4.HashTable ht;
 
 
-    class WikiItem {
-        String str;
-        WikiItem next;
+    public class WikiItem {
+        public String str;
+        public WikiItem next;
 
         WikiItem(String s, WikiItem n) {
             str = s;
@@ -21,15 +21,19 @@ class Index4 {
     }
 
     // klasse til at holde 3 felter
-    class ReturnItem{
-        String      searchstr;
-        WikiItem startDoc;
+    public class ReturnItem{
+        public String      searchstr;
+        public WikiItem startDoc;
         ReturnItem next;
 
         ReturnItem(String str, WikiItem startDocument, ReturnItem n) {
             searchstr  = str;
             startDoc = startDocument;
             next = n;
+        }
+
+        public WikiItem getStartDoc() {
+            return startDoc;
         }
     }
 
@@ -83,7 +87,7 @@ class Index4 {
 
 
 
-        ReturnItem get(String searchstr){
+        public ReturnItem get(String searchstr){
             int index = hash(searchstr);
             if(rows[index]  != null){
                 // System.out.println( "fra get: " + searchstr + " hash value: " + index);
