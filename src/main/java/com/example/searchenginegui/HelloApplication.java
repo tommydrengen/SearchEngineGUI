@@ -100,5 +100,5 @@ public class HelloApplication extends Application {
         });
         consoleThread.setDaemon(true);
         consoleThread.start();
-        }
+    }
 }
