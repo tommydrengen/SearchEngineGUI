@@ -33,7 +33,7 @@ public class Index5 {
             startDoc = startDocument;
             next = n;
         }
-        void sort(){ // bubblesort
+        public void sort() { // bubblesort
             boolean swapped = false;
             DocItem currentDoc, tmpDoc;
             do {
@@ -41,26 +41,22 @@ public class Index5 {
                 currentDoc = startDoc;
                 DocItem previousDoc = null;
 
-                while (currentDoc.next != null) {
+                while (currentDoc != null && currentDoc.next != null) {
                     if (currentDoc.occ < currentDoc.next.occ) {
-                        if(previousDoc == null){
+                        if (previousDoc == null) {
                             startDoc = currentDoc.next;
-                        }
-                        else {
+                        } else {
                             previousDoc.next = currentDoc.next;
                         }
-                        currentDoc.next = currentDoc.next.next;
-                        startDoc.next = currentDoc;
+                        tmpDoc = currentDoc.next.next;
+                        currentDoc.next.next = currentDoc;
+                        currentDoc.next = tmpDoc;
                         swapped = true;
                     }
                     previousDoc = currentDoc;
                     currentDoc = currentDoc.next;
                 }
             } while (swapped);
-        }
-
-        public DocItem getStartDoc() {
-            return startDoc;
         }
     }
 
@@ -139,7 +135,7 @@ public class Index5 {
     }
 
     public class DocItem{
-        public String searchstr;
+        String searchstr;
         public String documentName;
         public int occ;
         public DocItem next;
