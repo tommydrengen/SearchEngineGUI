@@ -1,7 +1,6 @@
 package com.example.searchenginegui;
 
-import com.example.searchenginegui.entity.Index4;
-import com.example.searchenginegui.entity.Index4.ReturnItem;
+import com.example.searchenginegui.entity.Index5;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -18,7 +17,7 @@ public class HelloApplication extends Application {
     //https://www.youtube.com/watch?v=cwJK_WpseKQ&list=PL6gx4Cwl9DGBzfXLWLSYVy8EbTdpGbUIG&index=10
     static final String filename = "src/main/java/com/example/searchenginegui/entity/WestburyLab.wikicorp.201004_100KB.txt";
 
-    private static Index4 i;
+    private static Index5 i;
     Stage window;
     Scene scene;
     Button button;
@@ -28,7 +27,7 @@ public class HelloApplication extends Application {
     public void start(Stage stage) throws IOException {
         window =stage;
         stage.setTitle("Search Engine");
-        i = new Index4(filename);
+        i = new Index5(filename);
         i.search3(); // make all returnItems
         i.ht.initHashTable();
 
@@ -40,10 +39,10 @@ public class HelloApplication extends Application {
             resultArea.clear(); // remove text from last search
             StringBuilder result = new StringBuilder();
             String searchString = input.getText();
-            ReturnItem returnItem = i.search4(searchString);
-            Index4.WikiItem tmp = returnItem.getStartDoc();
+            Index5.ReturnItem returnItem = i.search4(searchString);
+            Index5.DocItem tmp = returnItem.getStartDoc();
             while (tmp != null){
-                result.append(tmp.str).append("\n");
+                result.append(tmp.documentName + " " + tmp.occ).append("\n");
                 tmp = tmp.next;
             }
 
@@ -51,10 +50,10 @@ public class HelloApplication extends Application {
             // skriv result til  UI:
             resultArea.appendText("Search String: " + returnItem.searchstr + "\n");
             resultArea.appendText("Documents containing search string: " + searchString +"\n");
-            Index4.WikiItem current = returnItem.startDoc;
-            while (current != null) {
-                resultArea.appendText("Document: " + current.str + "\n");
-                current = current.next;
+            Index5.DocItem currentDoc = returnItem.startDoc;
+            while (currentDoc != null) {
+                resultArea.appendText("Document: " + currentDoc.documentName +" "+ currentDoc.occ + "\n");
+                currentDoc = currentDoc.next;
             }
         });
 
@@ -70,7 +69,7 @@ public class HelloApplication extends Application {
     public static void main(String[] args) {
         launch();
         System.out.println("Preprocessing " + filename);
-        i = new Index4(filename);
+        i = new Index5(filename);
         i.search3(); //make all ReturnItems
         i.ht.initHashTable();
 
@@ -84,13 +83,13 @@ public class HelloApplication extends Application {
                     break;
                 }
                 if (i.search(searchstr)) {
-                    ReturnItem returnItem = i.ht.get(searchstr); //nyt hashtable
+                    Index5.ReturnItem returnItem = i.ht.get(searchstr); //nyt hashtable
                     System.out.println("Searchtr: "+ searchstr);
                     System.out.println("Documents from hashtable: ");
-                    Index4.WikiItem current = returnItem.startDoc;
-                    while (current != null){
-                        System.out.println("Document: " + current.str);
-                        current = current.next;
+                    Index5.DocItem currentDoc = returnItem.startDoc;
+                    while (currentDoc != null){
+                        System.out.println("Document: " + currentDoc.documentName + ": " + currentDoc.occ);
+                        currentDoc = currentDoc.next;
                     }
                 } else {
                     System.out.println(searchstr + " does not exist");
@@ -100,5 +99,5 @@ public class HelloApplication extends Application {
         });
         consoleThread.setDaemon(true);
         consoleThread.start();
-        }
+    }
 }
